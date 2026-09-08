@@ -82,6 +82,23 @@ class RegressionTests(unittest.TestCase):
             with self.assertRaises(v.VerifierError):
                 v.load_plugins(folder)
 
+    def test_invalid_plugin_registry_is_removed_from_sys_modules(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pathlib.Path(folder, "bad.py").write_text(
+                "RULES = {'x-bad': 1}", encoding="utf-8"
+            )
+            before = {
+                name for name in sys.modules
+                if name.startswith("_verifier_plugin_")
+            }
+            with self.assertRaises(v.VerifierError):
+                v.load_plugins(folder)
+            after = {
+                name for name in sys.modules
+                if name.startswith("_verifier_plugin_")
+            }
+            self.assertEqual(after, before)
+
     def test_plugin_supports_standard_dataclass_import(self):
         with tempfile.TemporaryDirectory() as folder:
             pathlib.Path(folder, "typed_plugin.py").write_text(

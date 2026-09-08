@@ -170,28 +170,35 @@ def load_plugins(plugin_dir: str) -> dict:
             else:
                 sys.modules[module_name] = previous
             raise VerifierError(f"cannot load plugin: {path.name}") from exc
-        rules = getattr(module, "RULES", {})
-        if not isinstance(rules, dict):
-            raise VerifierError(f"plugin RULES must be a dict: {path.name}")
-        for rule_id, rule in rules.items():
-            if not isinstance(rule_id, str) or not rule_id.startswith(EXTENSION_PREFIX):
-                raise VerifierError(f"plugin rule must have x- prefix: {rule_id!r}")
-            if not callable(rule):
-                raise VerifierError(f"plugin rule must be callable: {rule_id}")
-            try:
-                signature = inspect.signature(rule)
-            except (TypeError, ValueError):
-                signature = None
-            if signature is not None:
+        try:
+            rules = getattr(module, "RULES", {})
+            if not isinstance(rules, dict):
+                raise VerifierError(f"plugin RULES must be a dict: {path.name}")
+            for rule_id, rule in rules.items():
+                if not isinstance(rule_id, str) or not rule_id.startswith(EXTENSION_PREFIX):
+                    raise VerifierError(f"plugin rule must have x- prefix: {rule_id!r}")
+                if not callable(rule):
+                    raise VerifierError(f"plugin rule must be callable: {rule_id}")
                 try:
-                    signature.bind({}, None)
-                except TypeError as exc:
-                    raise VerifierError(
-                        f"plugin rule must accept (record, now): {rule_id}"
-                    ) from exc
-            if rule_id in collected or rule_id in RULES:
-                raise VerifierError(f"plugin rule already registered: {rule_id}")
-            collected[rule_id] = rule
+                    signature = inspect.signature(rule)
+                except (TypeError, ValueError):
+                    signature = None
+                if signature is not None:
+                    try:
+                        signature.bind({}, None)
+                    except TypeError as exc:
+                        raise VerifierError(
+                            f"plugin rule must accept (record, now): {rule_id}"
+                        ) from exc
+                if rule_id in collected or rule_id in RULES:
+                    raise VerifierError(f"plugin rule already registered: {rule_id}")
+                collected[rule_id] = rule
+        except Exception:
+            if previous is None:
+                sys.modules.pop(module_name, None)
+            else:
+                sys.modules[module_name] = previous
+            raise
     return collected
 
 
