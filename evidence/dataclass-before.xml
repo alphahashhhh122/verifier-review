@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.714" timestamp="2026-09-08T22:56:52.964630+05:30" hostname="CODEPPLOP"><testcase classname="test_regressions.RegressionTests" name="test_plugin_supports_standard_dataclass_import" time="0.039"><failure message="verifier.VerifierError: cannot load plugin: typed_plugin.py">verifier.py:156: in load_plugins
+    spec.loader.exec_module(module)
+C:\Users\nirwa\AppData\Local\Temp\tmp7ncq34jl\typed_plugin.py:3: in &lt;module&gt;
+    ???
+C:\Users\nirwa\anaconda3\new_one\Lib\dataclasses.py:1275: in dataclass
+    return wrap(cls)
+           ^^^^^^^^^
+C:\Users\nirwa\anaconda3\new_one\Lib\dataclasses.py:1265: in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+C:\Users\nirwa\anaconda3\new_one\Lib\dataclasses.py:983: in _process_class
+    and _is_type(type, cls, dataclasses, dataclasses.KW_ONLY,
+C:\Users\nirwa\anaconda3\new_one\Lib\dataclasses.py:749: in _is_type
+    ns = sys.modules.get(cls.__module__).__dict__
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute '__dict__'. Did you mean: '__dir__'?
+
+The above exception was the direct cause of the following exception:
+test_regressions.py:87: in test_plugin_supports_standard_dataclass_import
+    loaded = v.load_plugins(folder)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:158: in load_plugins
+    raise VerifierError(f"cannot load plugin: {path.name}") from exc
+E   verifier.VerifierError: cannot load plugin: typed_plugin.py</failure></testcase></testsuite></testsuites>

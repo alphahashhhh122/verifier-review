@@ -73,6 +73,21 @@ class RegressionTests(unittest.TestCase):
                 with self.assertRaises(v.VerifierError):
                     v.load_plugins(folder)
 
+    def test_plugin_supports_standard_dataclass_import(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pathlib.Path(folder, "typed_plugin.py").write_text(
+                "from __future__ import annotations\n"
+                "from dataclasses import dataclass\n"
+                "@dataclass\n"
+                "class Result:\n"
+                "    outcome: str = 'pass'\n"
+                "RULES = {'x-typed': lambda record, now: Result().outcome}\n",
+                encoding="utf-8",
+            )
+            loaded = v.load_plugins(folder)
+            self.assertIn("x-typed", loaded)
+            self.assertEqual(loaded["x-typed"]({}, NOW), v.PASS)
+
     def test_duplicate_plugin_ids_are_not_silently_overwritten(self):
         with tempfile.TemporaryDirectory() as folder:
             for name, outcome in (("a.py", "fail"), ("b.py", "pass")):
