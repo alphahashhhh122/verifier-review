@@ -89,6 +89,20 @@ class ContractTests(unittest.TestCase):
         )
         self.assertEqual(result["record_id"], "rec-001")
 
+    def test_overall_rejects_malformed_reports(self):
+        malformed = (
+            None,
+            {},
+            [{}],
+            [{"agrees": True}],
+            [{"recomputed": v.PASS}],
+            [{"agrees": "yes", "recomputed": v.PASS}],
+            [{"agrees": True, "recomputed": "unknown"}],
+        )
+        for report in malformed:
+            with self.subTest(report=report), self.assertRaises(v.VerifierError):
+                v.overall(report)
+
     def test_duplicate_declarations_do_not_hide_disagreement(self):
         rec = record("actor_present", actor="alice")
         rec["results"].append({"rule_id": "actor_present", "outcome": v.FAIL})

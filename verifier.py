@@ -284,7 +284,17 @@ def overall(report: list[dict]) -> str:
     rules: empty reports and honestly skipped checks do not certify that any
     external required-rule policy was satisfied.
     """
+    if not isinstance(report, list):
+        raise VerifierError("report must be a list")
     for entry in report:
+        if not isinstance(entry, dict):
+            raise VerifierError("report entry must be a dict")
+        if "agrees" not in entry or "recomputed" not in entry:
+            raise VerifierError("report entry is missing required fields")
+        if not isinstance(entry["agrees"], bool):
+            raise VerifierError("report agrees field must be boolean")
+        if entry["recomputed"] not in (*VALID_OUTCOMES, None):
+            raise VerifierError("report has an invalid recomputed outcome")
         if not entry["agrees"]:
             return FAIL
         if entry["recomputed"] == FAIL:
