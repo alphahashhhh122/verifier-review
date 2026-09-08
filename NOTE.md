@@ -1,0 +1,7 @@
+# What should not have been built
+
+I would not have built automatic filesystem plugin discovery for this small verifier without a concrete deployment need. Scanning and executing every eligible Python file creates configuration, import, collision, and trust responsibilities before the four-rule use case needs them. An explicit registry of trusted functions is enough; applications can register functions directly. If plugin discovery is retained, its failure and replacement policy must be explicit. The focused patch retains the supplied interface so the review remains easy to reproduce, rather than building a replacement framework.
+
+The verdict also needs a narrow meaning: agreement with selected declarations is not certification that required business checks ran. Empty and honestly skipped reports follow the existing reducer policy. A required-rule policy must come from the application, not be guessed by this patch.
+
+AI disclosure: Codex produced the walkthrough, probes, regression tests, fixes, scripts, and these draft documents. Three GPT-5.6 Luna agents at maximum reasoning effort supplied parallel defect, mutation, and design reviews; Codex integrated and checked their work. An externally supplied review labelled Claude informed cross-checks, particularly the isolated-import issue. The candidate directed scope and discussed the code; no independent human code changes are claimed. The candidate must review this note and report their actual time before submission.

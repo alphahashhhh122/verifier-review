@@ -9,10 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install pytest
         run: python -m pip install pytest
-      - name: Run supplied tests
-        run: python -m pytest -q
+      - name: Run original and added tests
+        run: python -m pytest -v
+      - name: Verify expected baseline failures and corrected passes
+        run: python reproduce_regressions.py
+      - name: Audit the original fifteen tests
+        run: python audit_tests.py
