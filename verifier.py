@@ -153,7 +153,7 @@ def load_plugins(plugin_dir: str) -> dict:
     collected: dict = {}
     directory = pathlib.Path(plugin_dir)
     if not directory.is_dir():
-        return collected
+        raise VerifierError(f"plugin directory does not exist: {plugin_dir}")
     for path in sorted(directory.glob("*.py")):
         if path.name.startswith("_"):
             continue
@@ -296,8 +296,11 @@ def verify(record: dict, now: datetime.datetime) -> dict:
     """Verify one record and return the report plus the overall verdict."""
     _validate_now(now)
     report = reconcile(record, now)
+    record_id = record.get("record_id")
+    if not isinstance(record_id, str) or not record_id.strip():
+        raise VerifierError("record_id must be a non-empty string")
     return {
-        "record_id": record.get("record_id"),
+        "record_id": record_id,
         "report": report,
         "verdict": overall(report),
     }

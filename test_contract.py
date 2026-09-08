@@ -41,7 +41,10 @@ class ContractTests(unittest.TestCase):
                 v.check_freshness({"created_at": "2026-09-01T00:00:00Z"}, now)
 
     def test_empty_and_honest_skip_semantics_are_preserved(self):
-        self.assertEqual(v.verify({"results": []}, NOW)["verdict"], v.PASS)
+        self.assertEqual(
+            v.verify({"record_id": "rec-empty", "results": []}, NOW)["verdict"],
+            v.PASS,
+        )
         self.assertEqual(v.verify(record("actor_present", v.SKIP), NOW)["verdict"], v.PASS)
         # No new required-rule policy is imposed on the existing API.
         self.assertEqual(v.check_freshness({"created_at": "2030-01-01T00:00:00Z"}, NOW), v.PASS)
@@ -73,6 +76,18 @@ class ContractTests(unittest.TestCase):
         for now in (None, "today", NOW.replace(tzinfo=None)):
             with self.subTest(now=now), self.assertRaises(v.VerifierError):
                 v.verify({"results": []}, now)
+
+    def test_verify_requires_a_record_id(self):
+        for record_id in (None, "", "   ", 123, [], {}):
+            with self.subTest(record_id=record_id), self.assertRaises(
+                v.VerifierError
+            ):
+                v.verify({"record_id": record_id, "results": []}, NOW)
+
+        result = v.verify(
+            {"record_id": "rec-001", "results": []}, NOW
+        )
+        self.assertEqual(result["record_id"], "rec-001")
 
     def test_duplicate_declarations_do_not_hide_disagreement(self):
         rec = record("actor_present", actor="alice")

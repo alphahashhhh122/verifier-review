@@ -14,7 +14,11 @@ NOW = datetime.datetime(2026, 9, 1, tzinfo=datetime.timezone.utc)
 
 
 def record(rule, outcome=v.PASS, **fields):
-    return {**fields, "results": [{"rule_id": rule, "outcome": outcome}]}
+    return {
+        "record_id": "rec-regression",
+        **fields,
+        "results": [{"rule_id": rule, "outcome": outcome}],
+    }
 
 
 class RegressionTests(unittest.TestCase):
@@ -98,6 +102,12 @@ class RegressionTests(unittest.TestCase):
                 if name.startswith("_verifier_plugin_")
             }
             self.assertEqual(after, before)
+
+    def test_missing_plugin_directory_is_reported(self):
+        with tempfile.TemporaryDirectory() as folder:
+            missing = pathlib.Path(folder, "missing")
+            with self.assertRaises(v.VerifierError):
+                v.load_plugins(str(missing))
 
     def test_plugin_supports_standard_dataclass_import(self):
         with tempfile.TemporaryDirectory() as folder:
