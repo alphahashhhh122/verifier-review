@@ -86,6 +86,9 @@ def test_amount_bounds_flags_negative_amounts():
     )
     report = reconcile(record, NOW)
     assert len(report) == 1
+    assert report[0]["recomputed"] == FAIL
+    assert report[0]["agrees"] is True
+    assert overall(report) == FAIL
 
 
 def test_amount_bounds_fails_above_the_ceiling():
