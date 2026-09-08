@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import inspect
 import importlib.util
 import json
 import pathlib
@@ -177,6 +178,17 @@ def load_plugins(plugin_dir: str) -> dict:
                 raise VerifierError(f"plugin rule must have x- prefix: {rule_id!r}")
             if not callable(rule):
                 raise VerifierError(f"plugin rule must be callable: {rule_id}")
+            try:
+                signature = inspect.signature(rule)
+            except (TypeError, ValueError):
+                signature = None
+            if signature is not None:
+                try:
+                    signature.bind({}, None)
+                except TypeError as exc:
+                    raise VerifierError(
+                        f"plugin rule must accept (record, now): {rule_id}"
+                    ) from exc
             if rule_id in collected or rule_id in RULES:
                 raise VerifierError(f"plugin rule already registered: {rule_id}")
             collected[rule_id] = rule

@@ -73,6 +73,15 @@ class RegressionTests(unittest.TestCase):
                 with self.assertRaises(v.VerifierError):
                     v.load_plugins(folder)
 
+    def test_plugin_callback_must_accept_record_and_now(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pathlib.Path(folder, "arity.py").write_text(
+                "RULES = {'x-arity': lambda: 'pass'}",
+                encoding="utf-8",
+            )
+            with self.assertRaises(v.VerifierError):
+                v.load_plugins(folder)
+
     def test_plugin_supports_standard_dataclass_import(self):
         with tempfile.TemporaryDirectory() as folder:
             pathlib.Path(folder, "typed_plugin.py").write_text(
