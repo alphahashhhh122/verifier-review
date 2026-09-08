@@ -54,6 +54,26 @@ class ContractTests(unittest.TestCase):
                 )
         self.assertEqual(v.check_actor_present({"actor": "alice"}, NOW), v.PASS)
 
+    def test_approval_requires_a_non_empty_string_approver(self):
+        base = {"amount_cents": v.APPROVAL_THRESHOLD_CENTS + 1}
+        for approver in (True, 1, [], {}, "", "   ", None):
+            with self.subTest(approver=approver):
+                self.assertEqual(
+                    v.check_approval_recorded(
+                        {**base, "approver": approver}, NOW
+                    ),
+                    v.FAIL,
+                )
+        self.assertEqual(
+            v.check_approval_recorded({**base, "approver": "carol"}, NOW),
+            v.PASS,
+        )
+
+    def test_verify_rejects_invalid_now_for_empty_results(self):
+        for now in (None, "today", NOW.replace(tzinfo=None)):
+            with self.subTest(now=now), self.assertRaises(v.VerifierError):
+                v.verify({"results": []}, now)
+
     def test_duplicate_declarations_do_not_hide_disagreement(self):
         rec = record("actor_present", actor="alice")
         rec["results"].append({"rule_id": "actor_present", "outcome": v.FAIL})

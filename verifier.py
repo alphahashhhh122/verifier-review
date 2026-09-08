@@ -53,12 +53,18 @@ class VerifierError(Exception):
 # ---------------------------------------------------------------------------
 
 
+def _validate_now(now: datetime.datetime) -> None:
+    if not isinstance(now, datetime.datetime) or now.utcoffset() is None:
+        raise VerifierError("now must be a timezone-aware datetime")
+
+
 def check_freshness(record: dict, now: datetime.datetime) -> str:
     """Return PASS when the record is inside its freshness window.
 
     The window is taken from the record's own ``max_age_days`` field so that
     long-lived record types can declare a longer window than the default.
     """
+    _validate_now(now)
     created_raw = record.get("created_at")
     if created_raw is None or created_raw == "":
         return SKIP
@@ -74,8 +80,6 @@ def check_freshness(record: dict, now: datetime.datetime) -> str:
         window = datetime.timedelta(days=max_age_days)
     except (ValueError, OverflowError) as exc:
         raise VerifierError("max_age_days must be finite and representable") from exc
-    if not isinstance(now, datetime.datetime) or now.utcoffset() is None:
-        raise VerifierError("now must be a timezone-aware datetime")
     age = now - created
     if age > window:
         return FAIL
@@ -118,7 +122,7 @@ def check_approval_recorded(record: dict, now: datetime.datetime) -> str:
     if amount <= APPROVAL_THRESHOLD_CENTS:
         return PASS
     approver = record.get("approver")
-    if approver and str(approver).strip():
+    if isinstance(approver, str) and approver.strip():
         return PASS
     return FAIL
 
@@ -237,6 +241,7 @@ def reconcile(record: dict, now: datetime.datetime) -> list[dict]:
     Returns one entry per declared result, each carrying the declared and
     recomputed outcomes and whether they agree.
     """
+    _validate_now(now)
     if not isinstance(record, dict):
         raise VerifierError("record must be a dict")
     declared = record.get("results")
@@ -289,6 +294,7 @@ def overall(report: list[dict]) -> str:
 
 def verify(record: dict, now: datetime.datetime) -> dict:
     """Verify one record and return the report plus the overall verdict."""
+    _validate_now(now)
     report = reconcile(record, now)
     return {
         "record_id": record.get("record_id"),
