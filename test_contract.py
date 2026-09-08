@@ -46,6 +46,14 @@ class ContractTests(unittest.TestCase):
         # No new required-rule policy is imposed on the existing API.
         self.assertEqual(v.check_freshness({"created_at": "2030-01-01T00:00:00Z"}, NOW), v.PASS)
 
+    def test_actor_requires_a_non_empty_string(self):
+        for actor in (True, 0, [], {}, "", "   "):
+            with self.subTest(actor=actor):
+                self.assertEqual(
+                    v.check_actor_present({"actor": actor}, NOW), v.FAIL
+                )
+        self.assertEqual(v.check_actor_present({"actor": "alice"}, NOW), v.PASS)
+
     def test_duplicate_declarations_do_not_hide_disagreement(self):
         rec = record("actor_present", actor="alice")
         rec["results"].append({"rule_id": "actor_present", "outcome": v.FAIL})

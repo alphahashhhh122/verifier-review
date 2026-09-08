@@ -87,7 +87,9 @@ def check_actor_present(record: dict, now: datetime.datetime) -> str:
     actor = record.get("actor")
     if actor is None:
         return SKIP
-    if not str(actor).strip():
+    if not isinstance(actor, str):
+        return FAIL
+    if not actor.strip():
         return FAIL
     return PASS
 
