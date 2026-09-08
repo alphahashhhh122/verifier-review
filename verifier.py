@@ -15,7 +15,7 @@ parameter callers pass in.
 from __future__ import annotations
 
 import datetime
-import importlib
+import importlib.util
 import json
 import pathlib
 from typing import Callable, Optional
@@ -57,12 +57,24 @@ def check_freshness(record: dict, now: datetime.datetime) -> str:
     long-lived record types can declare a longer window than the default.
     """
     created_raw = record.get("created_at")
-    if not created_raw:
+    if created_raw is None or created_raw == "":
         return SKIP
     created = _parse_timestamp(created_raw)
     max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+    if (
+        isinstance(max_age_days, bool)
+        or not isinstance(max_age_days, (int, float))
+        or max_age_days < 0
+    ):
+        raise VerifierError("max_age_days must be a non-negative number")
+    try:
+        window = datetime.timedelta(days=max_age_days)
+    except (ValueError, OverflowError) as exc:
+        raise VerifierError("max_age_days must be finite and representable") from exc
+    if not isinstance(now, datetime.datetime) or now.utcoffset() is None:
+        raise VerifierError("now must be a timezone-aware datetime")
     age = now - created
-    if age > datetime.timedelta(days=max_age_days):
+    if age > window:
         return FAIL
     return PASS
 
@@ -96,7 +108,9 @@ def check_approval_recorded(record: dict, now: datetime.datetime) -> str:
     amount = record.get("amount_cents")
     if amount is None:
         return SKIP
-    if not isinstance(amount, int) or amount <= APPROVAL_THRESHOLD_CENTS:
+    if not isinstance(amount, int) or isinstance(amount, bool):
+        return FAIL
+    if amount <= APPROVAL_THRESHOLD_CENTS:
         return PASS
     approver = record.get("approver")
     if approver and str(approver).strip():
@@ -122,6 +136,10 @@ def load_plugins(plugin_dir: str) -> dict:
 
     Each plugin module may declare a module-level ``RULES`` dict whose keys
     carry the extension prefix. The collected map is returned to the caller.
+
+    Only use trusted deployment code: imports execute arbitrary Python.
+    Register the returned rules explicitly with ``RULES.update(...)``.
+    Invalid registries, duplicate IDs, and import failures raise VerifierError.
     """
     collected: dict = {}
     directory = pathlib.Path(plugin_dir)
@@ -133,12 +151,22 @@ def load_plugins(plugin_dir: str) -> dict:
         try:
             spec = importlib.util.spec_from_file_location(path.stem, path)
             if spec is None or spec.loader is None:
-                continue
+                raise VerifierError(f"cannot import plugin: {path.name}")
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-        except Exception:
-            continue
-        collected.update(getattr(module, "RULES", {}))
+        except Exception as exc:
+            raise VerifierError(f"cannot load plugin: {path.name}") from exc
+        rules = getattr(module, "RULES", {})
+        if not isinstance(rules, dict):
+            raise VerifierError(f"plugin RULES must be a dict: {path.name}")
+        for rule_id, rule in rules.items():
+            if not isinstance(rule_id, str) or not rule_id.startswith(EXTENSION_PREFIX):
+                raise VerifierError(f"plugin rule must have x- prefix: {rule_id!r}")
+            if not callable(rule):
+                raise VerifierError(f"plugin rule must be callable: {rule_id}")
+            if rule_id in collected or rule_id in RULES:
+                raise VerifierError(f"plugin rule already registered: {rule_id}")
+            collected[rule_id] = rule
     return collected
 
 
@@ -157,8 +185,13 @@ def evaluate_rule(
     the ``x-`` prefix are permitted by the specification, so an unresolved
     extension is not treated as an error here.
     """
+    if not isinstance(rule_id, str) or not rule_id:
+        raise VerifierError("rule_id must be a non-empty string")
     if rule_id in RULES:
-        return RULES[rule_id](record, now)
+        outcome = RULES[rule_id](record, now)
+        if not isinstance(outcome, str) or outcome not in VALID_OUTCOMES:
+            raise VerifierError(f"invalid recomputed outcome for {rule_id}: {outcome!r}")
+        return outcome
     if rule_id.startswith(EXTENSION_PREFIX):
         return None
     raise VerifierError(f"unknown rule: {rule_id}")
@@ -170,6 +203,8 @@ def reconcile(record: dict, now: datetime.datetime) -> list[dict]:
     Returns one entry per declared result, each carrying the declared and
     recomputed outcomes and whether they agree.
     """
+    if not isinstance(record, dict):
+        raise VerifierError("record must be a dict")
     declared = record.get("results")
     if declared is None:
         raise VerifierError("record declares no results")
@@ -178,6 +213,8 @@ def reconcile(record: dict, now: datetime.datetime) -> list[dict]:
 
     report = []
     for item in declared:
+        if not isinstance(item, dict):
+            raise VerifierError("result entry must be a dict")
         rule_id = item.get("rule_id")
         if not rule_id:
             raise VerifierError("result entry has no rule_id")
@@ -186,7 +223,7 @@ def reconcile(record: dict, now: datetime.datetime) -> list[dict]:
             raise VerifierError(f"invalid declared outcome: {declared_outcome}")
         recomputed = evaluate_rule(rule_id, record, now)
         if recomputed is None:
-            agrees = True
+            agrees = False
         else:
             agrees = recomputed == declared_outcome
         report.append(
@@ -204,7 +241,9 @@ def overall(report: list[dict]) -> str:
     """Reduce a reconciliation report to a single verdict.
 
     Any disagreement between declared and recomputed is a FAIL. Any recomputed
-    FAIL is a FAIL. Otherwise the record passes.
+    FAIL is a FAIL. Otherwise the record passes. This checks only the declared
+    rules: empty reports and honestly skipped checks do not certify that any
+    external required-rule policy was satisfied.
     """
     for entry in report:
         if not entry["agrees"]:
@@ -231,6 +270,8 @@ def verify(record: dict, now: datetime.datetime) -> dict:
 
 def _parse_timestamp(raw: str) -> datetime.datetime:
     """Parse an ISO 8601 timestamp, accepting a trailing Z."""
+    if not isinstance(raw, str):
+        raise VerifierError("timestamp must be a string")
     text = raw.strip()
     if text.endswith("Z"):
         text = text[:-1] + "+00:00"
@@ -244,6 +285,9 @@ def _parse_timestamp(raw: str) -> datetime.datetime:
 
 
 def load_record(path: str) -> dict:
-    """Read one JSON record from disk."""
+    """Read a JSON object; native I/O and JSON syntax errors propagate."""
     with open(path, encoding="utf-8") as handle:
-        return json.load(handle)
+        record = json.load(handle)
+    if not isinstance(record, dict):
+        raise VerifierError("record must be a JSON object")
+    return record
