@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="46" skipped="0" tests="53" time="1.486" timestamp="2026-09-08T22:48:41.819704+05:30" hostname="CODEPPLOP"><testcase classname="test_regressions.RegressionTests" name="test_approval_cannot_pass_malformed_amounts" time="0.187"><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure><failure message="AssertionError: 'pass' != 'fail'&#10;- pass&#10;+ fail">self = &lt;test_regressions.RegressionTests testMethod=test_approval_cannot_pass_malformed_amounts&gt;
+
+    def test_approval_cannot_pass_malformed_amounts(self):
+        for amount in (2_000_000.0, "2000000", True, False, [], {}):
+            with self.subTest(amount=amount):
+                result = v.verify(record("approval_recorded", amount_cents=amount), NOW)
+&gt;               self.assertEqual(result["report"][0]["recomputed"], v.FAIL)
+E               AssertionError: 'pass' != 'fail'
+E               - pass
+E               + fail
+
+test_regressions.py:40: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_broken_plugin_is_reported_to_the_caller" time="0.024"><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_broken_plugin_is_reported_to_the_caller&gt;
+
+    def test_broken_plugin_is_reported_to_the_caller(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pathlib.Path(folder, "broken.py").write_text(
+                "raise RuntimeError('broken plugin')", encoding="utf-8"
+            )
+&gt;           with self.assertRaises(v.VerifierError):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: VerifierError not raised
+
+test_regressions.py:91: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_duplicate_plugin_ids_are_not_silently_overwritten" time="0.036"><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_duplicate_plugin_ids_are_not_silently_overwritten&gt;
+
+    def test_duplicate_plugin_ids_are_not_silently_overwritten(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for name, outcome in (("a.py", "fail"), ("b.py", "pass")):
+                pathlib.Path(folder, name).write_text(
+                    f"RULES = {{'x-duplicate': lambda record, now: {outcome!r}}}",
+                    encoding="utf-8",
+                )
+&gt;           with self.assertRaises(v.VerifierError):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: VerifierError not raised
+
+test_regressions.py:83: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_load_record_rejects_non_object_json" time="0.136"><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_load_record_rejects_non_object_json&gt;
+
+    def test_load_record_rejects_non_object_json(self):
+        for contents in ("[]", "null", "42", '"record"'):
+            with self.subTest(contents=contents), tempfile.TemporaryDirectory() as folder:
+                path = pathlib.Path(folder, "record.json")
+                path.write_text(contents, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:118: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_load_record_rejects_non_object_json&gt;
+
+    def test_load_record_rejects_non_object_json(self):
+        for contents in ("[]", "null", "42", '"record"'):
+            with self.subTest(contents=contents), tempfile.TemporaryDirectory() as folder:
+                path = pathlib.Path(folder, "record.json")
+                path.write_text(contents, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:118: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_load_record_rejects_non_object_json&gt;
+
+    def test_load_record_rejects_non_object_json(self):
+        for contents in ("[]", "null", "42", '"record"'):
+            with self.subTest(contents=contents), tempfile.TemporaryDirectory() as folder:
+                path = pathlib.Path(folder, "record.json")
+                path.write_text(contents, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:118: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_load_record_rejects_non_object_json&gt;
+
+    def test_load_record_rejects_non_object_json(self):
+        for contents in ("[]", "null", "42", '"record"'):
+            with self.subTest(contents=contents), tempfile.TemporaryDirectory() as folder:
+                path = pathlib.Path(folder, "record.json")
+                path.write_text(contents, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:118: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_malformed_freshness_fields_raise_verifier_error" time="0.258"><failure message="AttributeError: 'int' object has no attribute 'strip'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:62: in check_freshness
+    created = _parse_timestamp(created_raw)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def _parse_timestamp(raw: str) -&gt; datetime.datetime:
+        """Parse an ISO 8601 timestamp, accepting a trailing Z."""
+&gt;       text = raw.strip()
+               ^^^^^^^^^
+E       AttributeError: 'int' object has no attribute 'strip'
+
+verifier.py:234: AttributeError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="TypeError: unsupported type for timedelta days component: str">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def check_freshness(record: dict, now: datetime.datetime) -&gt; str:
+        """Return PASS when the record is inside its freshness window.
+    
+        The window is taken from the record's own ``max_age_days`` field so that
+        long-lived record types can declare a longer window than the default.
+        """
+        created_raw = record.get("created_at")
+        if not created_raw:
+            return SKIP
+        created = _parse_timestamp(created_raw)
+        max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+        age = now - created
+&gt;       if age &gt; datetime.timedelta(days=max_age_days):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unsupported type for timedelta days component: str
+
+verifier.py:65: TypeError</failure><failure message="TypeError: unsupported type for timedelta days component: NoneType">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def check_freshness(record: dict, now: datetime.datetime) -&gt; str:
+        """Return PASS when the record is inside its freshness window.
+    
+        The window is taken from the record's own ``max_age_days`` field so that
+        long-lived record types can declare a longer window than the default.
+        """
+        created_raw = record.get("created_at")
+        if not created_raw:
+            return SKIP
+        created = _parse_timestamp(created_raw)
+        max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+        age = now - created
+&gt;       if age &gt; datetime.timedelta(days=max_age_days):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unsupported type for timedelta days component: NoneType
+
+verifier.py:65: TypeError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:110: AssertionError</failure><failure message="ValueError: cannot convert float NaN to integer">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def check_freshness(record: dict, now: datetime.datetime) -&gt; str:
+        """Return PASS when the record is inside its freshness window.
+    
+        The window is taken from the record's own ``max_age_days`` field so that
+        long-lived record types can declare a longer window than the default.
+        """
+        created_raw = record.get("created_at")
+        if not created_raw:
+            return SKIP
+        created = _parse_timestamp(created_raw)
+        max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+        age = now - created
+&gt;       if age &gt; datetime.timedelta(days=max_age_days):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: cannot convert float NaN to integer
+
+verifier.py:65: ValueError</failure><failure message="OverflowError: cannot convert float infinity to integer">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def check_freshness(record: dict, now: datetime.datetime) -&gt; str:
+        """Return PASS when the record is inside its freshness window.
+    
+        The window is taken from the record's own ``max_age_days`` field so that
+        long-lived record types can declare a longer window than the default.
+        """
+        created_raw = record.get("created_at")
+        if not created_raw:
+            return SKIP
+        created = _parse_timestamp(created_raw)
+        max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+        age = now - created
+&gt;       if age &gt; datetime.timedelta(days=max_age_days):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       OverflowError: cannot convert float infinity to integer
+
+verifier.py:65: OverflowError</failure><failure message="OverflowError: Python int too large to convert to C int">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_freshness_fields_raise_verifier_error&gt;
+
+    def test_malformed_freshness_fields_raise_verifier_error(self):
+        cases = [{"created_at": value} for value in (123, False, 0, [], {})]
+        cases.extend(
+            {"created_at": "2026-08-30T00:00:00Z", "max_age_days": days}
+            for days in ("30", None, True, -1, float("nan"), float("inf"), 10**100)
+        )
+        for fields in cases:
+            with self.subTest(fields=fields):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(record("freshness", **fields), NOW)
+
+test_regressions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:161: in evaluate_rule
+    return RULES[rule_id](record, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def check_freshness(record: dict, now: datetime.datetime) -&gt; str:
+        """Return PASS when the record is inside its freshness window.
+    
+        The window is taken from the record's own ``max_age_days`` field so that
+        long-lived record types can declare a longer window than the default.
+        """
+        created_raw = record.get("created_at")
+        if not created_raw:
+            return SKIP
+        created = _parse_timestamp(created_raw)
+        max_age_days = record.get("max_age_days", DEFAULT_MAX_AGE_DAYS)
+        age = now - created
+&gt;       if age &gt; datetime.timedelta(days=max_age_days):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       OverflowError: Python int too large to convert to C int
+
+verifier.py:65: OverflowError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_malformed_record_shapes_raise_verifier_error" time="0.187"><failure message="AttributeError: 'NoneType' object has no attribute 'get'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def reconcile(record: dict, now: datetime.datetime) -&gt; list[dict]:
+        """Recompute every declared rule and compare against what was declared.
+    
+        Returns one entry per declared result, each carrying the declared and
+        recomputed outcomes and whether they agree.
+        """
+&gt;       declared = record.get("results")
+                   ^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'get'
+
+verifier.py:173: AttributeError</failure><failure message="AttributeError: 'list' object has no attribute 'get'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def reconcile(record: dict, now: datetime.datetime) -&gt; list[dict]:
+        """Recompute every declared rule and compare against what was declared.
+    
+        Returns one entry per declared result, each carrying the declared and
+        recomputed outcomes and whether they agree.
+        """
+&gt;       declared = record.get("results")
+                   ^^^^^^^^^^
+E       AttributeError: 'list' object has no attribute 'get'
+
+verifier.py:173: AttributeError</failure><failure message="AttributeError: 'str' object has no attribute 'get'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def reconcile(record: dict, now: datetime.datetime) -&gt; list[dict]:
+        """Recompute every declared rule and compare against what was declared.
+    
+        Returns one entry per declared result, each carrying the declared and
+        recomputed outcomes and whether they agree.
+        """
+&gt;       declared = record.get("results")
+                   ^^^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'get'
+
+verifier.py:173: AttributeError</failure><failure message="AttributeError: 'NoneType' object has no attribute 'get'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def reconcile(record: dict, now: datetime.datetime) -&gt; list[dict]:
+        """Recompute every declared rule and compare against what was declared.
+    
+        Returns one entry per declared result, each carrying the declared and
+        recomputed outcomes and whether they agree.
+        """
+        declared = record.get("results")
+        if declared is None:
+            raise VerifierError("record declares no results")
+        if not isinstance(declared, list):
+            raise VerifierError("results must be a list")
+    
+        report = []
+        for item in declared:
+&gt;           rule_id = item.get("rule_id")
+                      ^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'get'
+
+verifier.py:181: AttributeError</failure><failure message="AttributeError: 'str' object has no attribute 'get'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def reconcile(record: dict, now: datetime.datetime) -&gt; list[dict]:
+        """Recompute every declared rule and compare against what was declared.
+    
+        Returns one entry per declared result, each carrying the declared and
+        recomputed outcomes and whether they agree.
+        """
+        declared = record.get("results")
+        if declared is None:
+            raise VerifierError("record declares no results")
+        if not isinstance(declared, list):
+            raise VerifierError("results must be a list")
+    
+        report = []
+        for item in declared:
+&gt;           rule_id = item.get("rule_id")
+                      ^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'get'
+
+verifier.py:181: AttributeError</failure><failure message="AttributeError: 'int' object has no attribute 'startswith'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def evaluate_rule(
+        rule_id: str, record: dict, now: datetime.datetime
+    ) -&gt; Optional[str]:
+        """Recompute one rule against a record.
+    
+        Returns the recomputed outcome, or ``None`` when this deployment has no
+        implementation for the identifier. Deployment-local extensions carrying
+        the ``x-`` prefix are permitted by the specification, so an unresolved
+        extension is not treated as an error here.
+        """
+        if rule_id in RULES:
+            return RULES[rule_id](record, now)
+&gt;       if rule_id.startswith(EXTENSION_PREFIX):
+           ^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'int' object has no attribute 'startswith'
+
+verifier.py:162: AttributeError</failure><failure message="TypeError: unhashable type: 'list'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def evaluate_rule(
+        rule_id: str, record: dict, now: datetime.datetime
+    ) -&gt; Optional[str]:
+        """Recompute one rule against a record.
+    
+        Returns the recomputed outcome, or ``None`` when this deployment has no
+        implementation for the identifier. Deployment-local extensions carrying
+        the ``x-`` prefix are permitted by the specification, so an unresolved
+        extension is not treated as an error here.
+        """
+&gt;       if rule_id in RULES:
+           ^^^^^^^^^^^^^^^^
+E       TypeError: unhashable type: 'list'
+
+verifier.py:160: TypeError</failure><failure message="TypeError: unhashable type: 'dict'">self = &lt;test_regressions.RegressionTests testMethod=test_malformed_record_shapes_raise_verifier_error&gt;
+
+    def test_malformed_record_shapes_raise_verifier_error(self):
+        cases = [None, [], "record", {"results": [None]}, {"results": ["rule"]}]
+        cases.extend(record(rule_id) for rule_id in (123, ["actor_present"], {"id": "x"}))
+        for case in cases:
+            with self.subTest(record=case):
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.verify(case, NOW)
+
+test_regressions.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+verifier.py:219: in verify
+    report = reconcile(record, now)
+             ^^^^^^^^^^^^^^^^^^^^^^
+verifier.py:187: in reconcile
+    recomputed = evaluate_rule(rule_id, record, now)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def evaluate_rule(
+        rule_id: str, record: dict, now: datetime.datetime
+    ) -&gt; Optional[str]:
+        """Recompute one rule against a record.
+    
+        Returns the recomputed outcome, or ``None`` when this deployment has no
+        implementation for the identifier. Deployment-local extensions carrying
+        the ``x-`` prefix are permitted by the specification, so an unresolved
+        extension is not treated as an error here.
+        """
+&gt;       if rule_id in RULES:
+           ^^^^^^^^^^^^^^^^
+E       TypeError: unhashable type: 'dict'
+
+verifier.py:160: TypeError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_plugin_registry_is_validated_before_registration" time="0.180"><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_plugin_registry_is_validated_before_registration&gt;
+
+    def test_plugin_registry_is_validated_before_registration(self):
+        sources = (
+            "RULES = {'amount_bounds': lambda record, now: 'pass'}",
+            "RULES = {'x-invalid': 42}",
+            "RULES = None",
+            "RULES = [('x-invalid', lambda record, now: 'pass')]",
+            "RULES = {12: lambda record, now: 'pass'}",
+        )
+        for source in sources:
+            with self.subTest(source=source), tempfile.TemporaryDirectory() as folder:
+                pathlib.Path(folder, "plugin.py").write_text(source, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:73: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_plugin_registry_is_validated_before_registration&gt;
+
+    def test_plugin_registry_is_validated_before_registration(self):
+        sources = (
+            "RULES = {'amount_bounds': lambda record, now: 'pass'}",
+            "RULES = {'x-invalid': 42}",
+            "RULES = None",
+            "RULES = [('x-invalid', lambda record, now: 'pass')]",
+            "RULES = {12: lambda record, now: 'pass'}",
+        )
+        for source in sources:
+            with self.subTest(source=source), tempfile.TemporaryDirectory() as folder:
+                pathlib.Path(folder, "plugin.py").write_text(source, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:73: AssertionError</failure><failure message="TypeError: 'NoneType' object is not iterable">self = &lt;test_regressions.RegressionTests testMethod=test_plugin_registry_is_validated_before_registration&gt;
+
+    def test_plugin_registry_is_validated_before_registration(self):
+        sources = (
+            "RULES = {'amount_bounds': lambda record, now: 'pass'}",
+            "RULES = {'x-invalid': 42}",
+            "RULES = None",
+            "RULES = [('x-invalid', lambda record, now: 'pass')]",
+            "RULES = {12: lambda record, now: 'pass'}",
+        )
+        for source in sources:
+            with self.subTest(source=source), tempfile.TemporaryDirectory() as folder:
+                pathlib.Path(folder, "plugin.py").write_text(source, encoding="utf-8")
+                with self.assertRaises(v.VerifierError):
+&gt;                   v.load_plugins(folder)
+
+test_regressions.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def load_plugins(plugin_dir: str) -&gt; dict:
+        """Import every module in ``plugin_dir`` and collect its ``RULES`` map.
+    
+        Each plugin module may declare a module-level ``RULES`` dict whose keys
+        carry the extension prefix. The collected map is returned to the caller.
+        """
+        collected: dict = {}
+        directory = pathlib.Path(plugin_dir)
+        if not directory.is_dir():
+            return collected
+        for path in sorted(directory.glob("*.py")):
+            if path.name.startswith("_"):
+                continue
+            try:
+                spec = importlib.util.spec_from_file_location(path.stem, path)
+                if spec is None or spec.loader is None:
+                    continue
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            except Exception:
+                continue
+&gt;           collected.update(getattr(module, "RULES", {}))
+E           TypeError: 'NoneType' object is not iterable
+
+verifier.py:141: TypeError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_plugin_registry_is_validated_before_registration&gt;
+
+    def test_plugin_registry_is_validated_before_registration(self):
+        sources = (
+            "RULES = {'amount_bounds': lambda record, now: 'pass'}",
+            "RULES = {'x-invalid': 42}",
+            "RULES = None",
+            "RULES = [('x-invalid', lambda record, now: 'pass')]",
+            "RULES = {12: lambda record, now: 'pass'}",
+        )
+        for source in sources:
+            with self.subTest(source=source), tempfile.TemporaryDirectory() as folder:
+                pathlib.Path(folder, "plugin.py").write_text(source, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:73: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_plugin_registry_is_validated_before_registration&gt;
+
+    def test_plugin_registry_is_validated_before_registration(self):
+        sources = (
+            "RULES = {'amount_bounds': lambda record, now: 'pass'}",
+            "RULES = {'x-invalid': 42}",
+            "RULES = None",
+            "RULES = [('x-invalid', lambda record, now: 'pass')]",
+            "RULES = {12: lambda record, now: 'pass'}",
+        )
+        for source in sources:
+            with self.subTest(source=source), tempfile.TemporaryDirectory() as folder:
+                pathlib.Path(folder, "plugin.py").write_text(source, encoding="utf-8")
+&gt;               with self.assertRaises(v.VerifierError):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: VerifierError not raised
+
+test_regressions.py:73: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_registered_rule_must_return_a_valid_outcome" time="0.058"><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_registered_rule_must_return_a_valid_outcome&gt;
+
+    def test_registered_rule_must_return_a_valid_outcome(self):
+        for value in (None, "unknown", True, [], {"outcome": "pass"}):
+            with self.subTest(value=value):
+                with patch.dict(v.RULES, {"x-broken": lambda r, n: value}):
+&gt;                   with self.assertRaises(v.VerifierError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: VerifierError not raised
+
+test_regressions.py:33: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_registered_rule_must_return_a_valid_outcome&gt;
+
+    def test_registered_rule_must_return_a_valid_outcome(self):
+        for value in (None, "unknown", True, [], {"outcome": "pass"}):
+            with self.subTest(value=value):
+                with patch.dict(v.RULES, {"x-broken": lambda r, n: value}):
+&gt;                   with self.assertRaises(v.VerifierError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: VerifierError not raised
+
+test_regressions.py:33: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_registered_rule_must_return_a_valid_outcome&gt;
+
+    def test_registered_rule_must_return_a_valid_outcome(self):
+        for value in (None, "unknown", True, [], {"outcome": "pass"}):
+            with self.subTest(value=value):
+                with patch.dict(v.RULES, {"x-broken": lambda r, n: value}):
+&gt;                   with self.assertRaises(v.VerifierError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: VerifierError not raised
+
+test_regressions.py:33: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_registered_rule_must_return_a_valid_outcome&gt;
+
+    def test_registered_rule_must_return_a_valid_outcome(self):
+        for value in (None, "unknown", True, [], {"outcome": "pass"}):
+            with self.subTest(value=value):
+                with patch.dict(v.RULES, {"x-broken": lambda r, n: value}):
+&gt;                   with self.assertRaises(v.VerifierError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: VerifierError not raised
+
+test_regressions.py:33: AssertionError</failure><failure message="AssertionError: VerifierError not raised">self = &lt;test_regressions.RegressionTests testMethod=test_registered_rule_must_return_a_valid_outcome&gt;
+
+    def test_registered_rule_must_return_a_valid_outcome(self):
+        for value in (None, "unknown", True, [], {"outcome": "pass"}):
+            with self.subTest(value=value):
+                with patch.dict(v.RULES, {"x-broken": lambda r, n: value}):
+&gt;                   with self.assertRaises(v.VerifierError):
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError: VerifierError not raised
+
+test_regressions.py:33: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_unresolved_extensions_are_not_agreement" time="0.031"><failure message="AssertionError: True is not False">self = &lt;test_regressions.RegressionTests testMethod=test_unresolved_extensions_are_not_agreement&gt;
+
+    def test_unresolved_extensions_are_not_agreement(self):
+        for outcome in v.VALID_OUTCOMES:
+            with self.subTest(outcome=outcome):
+                result = v.verify(record("x-unavailable", outcome), NOW)
+                self.assertIsNone(result["report"][0]["recomputed"])
+&gt;               self.assertIs(result["report"][0]["agrees"], False)
+E               AssertionError: True is not False
+
+test_regressions.py:26: AssertionError</failure><failure message="AssertionError: True is not False">self = &lt;test_regressions.RegressionTests testMethod=test_unresolved_extensions_are_not_agreement&gt;
+
+    def test_unresolved_extensions_are_not_agreement(self):
+        for outcome in v.VALID_OUTCOMES:
+            with self.subTest(outcome=outcome):
+                result = v.verify(record("x-unavailable", outcome), NOW)
+                self.assertIsNone(result["report"][0]["recomputed"])
+&gt;               self.assertIs(result["report"][0]["agrees"], False)
+E               AssertionError: True is not False
+
+test_regressions.py:26: AssertionError</failure><failure message="AssertionError: True is not False">self = &lt;test_regressions.RegressionTests testMethod=test_unresolved_extensions_are_not_agreement&gt;
+
+    def test_unresolved_extensions_are_not_agreement(self):
+        for outcome in v.VALID_OUTCOMES:
+            with self.subTest(outcome=outcome):
+                result = v.verify(record("x-unavailable", outcome), NOW)
+                self.assertIsNone(result["report"][0]["recomputed"])
+&gt;               self.assertIs(result["report"][0]["agrees"], False)
+E               AssertionError: True is not False
+
+test_regressions.py:26: AssertionError</failure></testcase><testcase classname="test_regressions.RegressionTests" name="test_valid_plugin_loads_without_incidental_imports" time="0.189"><failure message="AssertionError: 1 != 0 : Traceback (most recent call last):&#10;  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;&#10;AssertionError: {}">self = &lt;test_regressions.RegressionTests testMethod=test_valid_plugin_loads_without_incidental_imports&gt;
+
+    def test_valid_plugin_loads_without_incidental_imports(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pathlib.Path(folder, "valid.py").write_text(
+                "RULES = {'x-valid': lambda record, now: 'pass'}\n", encoding="utf-8"
+            )
+            # A fresh interpreter deliberately excludes site startup and pytest.
+            source = (
+                "import verifier; "
+                f"rules = verifier.load_plugins({folder!r}); "
+                "assert 'x-valid' in rules, rules; "
+                "assert rules['x-valid']({}, None) == 'pass'"
+            )
+            completed = subprocess.run(
+                [sys.executable, "-S", "-B", "-c", source],
+                cwd=pathlib.Path(v.__file__).parent,
+                capture_output=True, text=True, timeout=30,
+            )
+&gt;           self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+E           AssertionError: 1 != 0 : Traceback (most recent call last):
+E             File "&lt;string&gt;", line 1, in &lt;module&gt;
+E           AssertionError: {}
+
+test_regressions.py:60: AssertionError</failure></testcase></testsuite></testsuites>
