@@ -15,9 +15,11 @@ parameter callers pass in.
 from __future__ import annotations
 
 import datetime
+import hashlib
 import importlib.util
 import json
 import pathlib
+import sys
 from typing import Callable, Optional
 
 # ---------------------------------------------------------------------------
@@ -148,13 +150,24 @@ def load_plugins(plugin_dir: str) -> dict:
     for path in sorted(directory.glob("*.py")):
         if path.name.startswith("_"):
             continue
+        # A path-specific name avoids clobbering standard modules or a plugin
+        # with the same filename in another directory.
+        module_name = "_verifier_plugin_" + hashlib.sha256(
+            str(path.resolve()).encode("utf-8")
+        ).hexdigest()
+        previous = sys.modules.get(module_name)
         try:
-            spec = importlib.util.spec_from_file_location(path.stem, path)
+            spec = importlib.util.spec_from_file_location(module_name, path)
             if spec is None or spec.loader is None:
                 raise VerifierError(f"cannot import plugin: {path.name}")
             module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module
             spec.loader.exec_module(module)
         except Exception as exc:
+            if previous is None:
+                sys.modules.pop(module_name, None)
+            else:
+                sys.modules[module_name] = previous
             raise VerifierError(f"cannot load plugin: {path.name}") from exc
         rules = getattr(module, "RULES", {})
         if not isinstance(rules, dict):
