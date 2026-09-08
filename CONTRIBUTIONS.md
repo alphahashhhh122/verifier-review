@@ -12,4 +12,4 @@ The user also referred to Gemini, but only one distinct report body, self-labell
 
 Co-authorship trailers in the commits identify AI assistance. They are not evidence of manual human code authorship. Local Claude CLI attempts before the supplied report stalled and produced no review; those attempts are not counted as a completed review contribution.
 
-After the candidate completes CANDIDATE_REVIEW.md, update the disclosure with the review actually performed and any concrete changes made. A candidate may accept model-generated changes after reviewing them; the record should simply say that rather than invent manual rewriting.
+Before submission, the candidate should review the final patch and update the disclosure with the review actually performed and any concrete changes made. A candidate may accept model-generated changes after reviewing them; the record should simply say that rather than invent manual rewriting.

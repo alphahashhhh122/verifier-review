@@ -17,7 +17,7 @@ For a standard-library-only run of the new tests:
 python -m unittest -v test_regressions test_contract
 ```
 
-Read `REVIEW.md` for findings and design decisions, `TEST_AUDIT.md` for the mutation experiment, and `NOTE.md` for the short architectural note and AI disclosure. `DEBUG_NOTES.md` is a historical walkthrough, not the final findings list.
+Read `REVIEW.md` for findings and design decisions, `TEST_AUDIT.md` for the mutation experiment, and `NOTE.md` for the short architectural note and AI disclosure.
 
 ## History and evidence
 
