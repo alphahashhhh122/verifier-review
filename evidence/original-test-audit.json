@@ -46,7 +46,7 @@
     "cwd": "<isolated-copy>",
     "status": "passed",
     "returncode": 0,
-    "stdout": "...............                                                          [100%]\n15 passed in 0.20s\n",
+    "stdout": "...............                                                          [100%]\n15 passed in 0.31s\n",
     "stderr": ""
   },
   "mapped_tests": [
@@ -67,7 +67,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_freshness_passes_for_a_recent_record"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n__________________ test_freshness_passes_for_a_recent_record __________________\n\n    def test_freshness_passes_for_a_recent_record():\n        record = _make_record(created_at=\"2026-08-30T00:00:00Z\")\n>       assert check_freshness(record, NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': '2026-08-30T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:46: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_passes_for_a_recent_record - Assertio...\n1 failed in 0.27s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n__________________ test_freshness_passes_for_a_recent_record __________________\n\n    def test_freshness_passes_for_a_recent_record():\n        record = _make_record(created_at=\"2026-08-30T00:00:00Z\")\n>       assert check_freshness(record, NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': '2026-08-30T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:46: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_passes_for_a_recent_record - Assertio...\n1 failed in 0.22s\n",
       "stderr": ""
     },
     {
@@ -87,7 +87,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_freshness_fails_for_an_old_record"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_freshness_fails_for_an_old_record ____________________\n\n    def test_freshness_fails_for_an_old_record():\n        record = _make_record(created_at=\"2026-01-01T00:00:00Z\")\n>       assert check_freshness(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': '2026-01-01T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:51: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_fails_for_an_old_record - AssertionEr...\n1 failed in 0.29s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_freshness_fails_for_an_old_record ____________________\n\n    def test_freshness_fails_for_an_old_record():\n        record = _make_record(created_at=\"2026-01-01T00:00:00Z\")\n>       assert check_freshness(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': '2026-01-01T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:51: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_fails_for_an_old_record - AssertionEr...\n1 failed in 0.20s\n",
       "stderr": ""
     },
     {
@@ -107,7 +107,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_freshness_skips_when_no_timestamp"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_freshness_skips_when_no_timestamp ____________________\n\n    def test_freshness_skips_when_no_timestamp():\n        record = _make_record(created_at=None)\n>       assert check_freshness(record, NOW) == SKIP\nE       AssertionError: assert None == 'skip'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': None, 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:56: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_skips_when_no_timestamp - AssertionEr...\n1 failed in 0.33s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_freshness_skips_when_no_timestamp ____________________\n\n    def test_freshness_skips_when_no_timestamp():\n        record = _make_record(created_at=None)\n>       assert check_freshness(record, NOW) == SKIP\nE       AssertionError: assert None == 'skip'\nE        +  where None = check_freshness({'actor': 'alice', 'amount_cents': 5000, 'created_at': None, 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:56: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_skips_when_no_timestamp - AssertionEr...\n1 failed in 0.35s\n",
       "stderr": ""
     },
     {
@@ -127,7 +127,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_freshness_rejects_an_unparseable_timestamp"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_______________ test_freshness_rejects_an_unparseable_timestamp _______________\n\n    def test_freshness_rejects_an_unparseable_timestamp():\n        record = _make_record(created_at=\"not-a-date\")\n>       with pytest.raises(VerifierError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE <class 'verifier.VerifierError'>\n\ntest_verifier.py:61: Failed\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_rejects_an_unparseable_timestamp - Fa...\n1 failed in 0.26s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_______________ test_freshness_rejects_an_unparseable_timestamp _______________\n\n    def test_freshness_rejects_an_unparseable_timestamp():\n        record = _make_record(created_at=\"not-a-date\")\n>       with pytest.raises(VerifierError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE <class 'verifier.VerifierError'>\n\ntest_verifier.py:61: Failed\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_freshness_rejects_an_unparseable_timestamp - Fa...\n1 failed in 0.30s\n",
       "stderr": ""
     },
     {
@@ -147,7 +147,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_actor_present_passes_for_a_named_actor"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_actor_present_passes_for_a_named_actor _________________\n\n    def test_actor_present_passes_for_a_named_actor():\n>       assert check_actor_present(_make_record(actor=\"bob\"), NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_actor_present({'actor': 'bob', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': 'bob', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(actor='bob')\n\ntest_verifier.py:69: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_actor_present_passes_for_a_named_actor - Assert...\n1 failed in 0.36s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_actor_present_passes_for_a_named_actor _________________\n\n    def test_actor_present_passes_for_a_named_actor():\n>       assert check_actor_present(_make_record(actor=\"bob\"), NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_actor_present({'actor': 'bob', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': 'bob', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(actor='bob')\n\ntest_verifier.py:69: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_actor_present_passes_for_a_named_actor - Assert...\n1 failed in 0.29s\n",
       "stderr": ""
     },
     {
@@ -167,7 +167,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_actor_present_fails_for_whitespace"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_actor_present_fails_for_whitespace ___________________\n\n    def test_actor_present_fails_for_whitespace():\n>       assert check_actor_present(_make_record(actor=\"   \"), NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_actor_present({'actor': '   ', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': '   ', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(actor='   ')\n\ntest_verifier.py:73: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_actor_present_fails_for_whitespace - AssertionE...\n1 failed in 0.31s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_actor_present_fails_for_whitespace ___________________\n\n    def test_actor_present_fails_for_whitespace():\n>       assert check_actor_present(_make_record(actor=\"   \"), NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_actor_present({'actor': '   ', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': '   ', 'amount_cents': 5000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(actor='   ')\n\ntest_verifier.py:73: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_actor_present_fails_for_whitespace - AssertionE...\n1 failed in 0.37s\n",
       "stderr": ""
     },
     {
@@ -187,7 +187,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_amount_bounds_passes_inside_the_range"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_amount_bounds_passes_inside_the_range __________________\n\n    def test_amount_bounds_passes_inside_the_range():\n>       assert check_amount_bounds(_make_record(amount_cents=250), NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_amount_bounds({'actor': 'alice', 'amount_cents': 250, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': 'alice', 'amount_cents': 250, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(amount_cents=250)\n\ntest_verifier.py:80: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_amount_bounds_passes_inside_the_range - Asserti...\n1 failed in 0.49s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_amount_bounds_passes_inside_the_range __________________\n\n    def test_amount_bounds_passes_inside_the_range():\n>       assert check_amount_bounds(_make_record(amount_cents=250), NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_amount_bounds({'actor': 'alice', 'amount_cents': 250, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\nE        +    where {'actor': 'alice', 'amount_cents': 250, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...} = _make_record(amount_cents=250)\n\ntest_verifier.py:80: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_amount_bounds_passes_inside_the_range - Asserti...\n1 failed in 0.37s\n",
       "stderr": ""
     },
     {
@@ -207,7 +207,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_amount_bounds_flags_negative_amounts"
       ],
-      "stdout": ".                                                                        [100%]\n1 passed in 0.18s\n",
+      "stdout": ".                                                                        [100%]\n1 passed in 0.21s\n",
       "stderr": ""
     },
     {
@@ -227,7 +227,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_amount_bounds_fails_above_the_ceiling"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_amount_bounds_fails_above_the_ceiling __________________\n\n    def test_amount_bounds_fails_above_the_ceiling():\n        record = _make_record(amount_cents=99_000_000)\n>       assert check_amount_bounds(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_amount_bounds({'actor': 'alice', 'amount_cents': 99000000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:93: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_amount_bounds_fails_above_the_ceiling - Asserti...\n1 failed in 0.35s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_amount_bounds_fails_above_the_ceiling __________________\n\n    def test_amount_bounds_fails_above_the_ceiling():\n        record = _make_record(amount_cents=99_000_000)\n>       assert check_amount_bounds(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_amount_bounds({'actor': 'alice', 'amount_cents': 99000000, 'created_at': '2026-08-25T00:00:00Z', 'record_id': 'rec-001', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:93: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_amount_bounds_fails_above_the_ceiling - Asserti...\n1 failed in 0.31s\n",
       "stderr": ""
     },
     {
@@ -247,7 +247,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_approval_required_above_the_threshold"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_approval_required_above_the_threshold __________________\n\n    def test_approval_required_above_the_threshold():\n        record = _make_record(amount_cents=2_000_000, approver=None)\n>       assert check_approval_recorded(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_approval_recorded({'actor': 'alice', 'amount_cents': 2000000, 'approver': None, 'created_at': '2026-08-25T00:00:00Z', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:101: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_approval_required_above_the_threshold - Asserti...\n1 failed in 0.32s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_approval_required_above_the_threshold __________________\n\n    def test_approval_required_above_the_threshold():\n        record = _make_record(amount_cents=2_000_000, approver=None)\n>       assert check_approval_recorded(record, NOW) == FAIL\nE       AssertionError: assert None == 'fail'\nE        +  where None = check_approval_recorded({'actor': 'alice', 'amount_cents': 2000000, 'approver': None, 'created_at': '2026-08-25T00:00:00Z', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:101: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_approval_required_above_the_threshold - Asserti...\n1 failed in 0.31s\n",
       "stderr": ""
     },
     {
@@ -267,7 +267,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_approval_satisfied_by_a_named_approver"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_approval_satisfied_by_a_named_approver _________________\n\n    def test_approval_satisfied_by_a_named_approver():\n        record = _make_record(amount_cents=2_000_000, approver=\"carol\")\n>       assert check_approval_recorded(record, NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_approval_recorded({'actor': 'alice', 'amount_cents': 2000000, 'approver': 'carol', 'created_at': '2026-08-25T00:00:00Z', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:106: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_approval_satisfied_by_a_named_approver - Assert...\n1 failed in 0.37s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_approval_satisfied_by_a_named_approver _________________\n\n    def test_approval_satisfied_by_a_named_approver():\n        record = _make_record(amount_cents=2_000_000, approver=\"carol\")\n>       assert check_approval_recorded(record, NOW) == PASS\nE       AssertionError: assert None == 'pass'\nE        +  where None = check_approval_recorded({'actor': 'alice', 'amount_cents': 2000000, 'approver': 'carol', 'created_at': '2026-08-25T00:00:00Z', ...}, datetime.datetime(2026, 9, 1, 0, 0, tzinfo=datetime.timezone.utc))\n\ntest_verifier.py:106: AssertionError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_approval_satisfied_by_a_named_approver - Assert...\n1 failed in 0.33s\n",
       "stderr": ""
     },
     {
@@ -287,7 +287,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_reconcile_agrees_when_the_declaration_is_honest"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n____________ test_reconcile_agrees_when_the_declaration_is_honest _____________\n\n    def test_reconcile_agrees_when_the_declaration_is_honest():\n        record = _make_record(results=_declare((\"actor_present\", PASS)))\n        report = reconcile(record, NOW)\n>       assert report[0][\"agrees\"] is True\n               ^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:115: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_agrees_when_the_declaration_is_honest\n1 failed in 0.46s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n____________ test_reconcile_agrees_when_the_declaration_is_honest _____________\n\n    def test_reconcile_agrees_when_the_declaration_is_honest():\n        record = _make_record(results=_declare((\"actor_present\", PASS)))\n        report = reconcile(record, NOW)\n>       assert report[0][\"agrees\"] is True\n               ^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:115: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_agrees_when_the_declaration_is_honest\n1 failed in 0.30s\n",
       "stderr": ""
     },
     {
@@ -307,7 +307,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_reconcile_catches_a_lie"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n________________________ test_reconcile_catches_a_lie _________________________\n\n    def test_reconcile_catches_a_lie():\n        record = _make_record(\n            actor=\"   \", results=_declare((\"actor_present\", PASS))\n        )\n        report = reconcile(record, NOW)\n>       assert report[0][\"agrees\"] is False\n               ^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:123: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_catches_a_lie - TypeError: 'NoneType'...\n1 failed in 0.36s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n________________________ test_reconcile_catches_a_lie _________________________\n\n    def test_reconcile_catches_a_lie():\n        record = _make_record(\n            actor=\"   \", results=_declare((\"actor_present\", PASS))\n        )\n        report = reconcile(record, NOW)\n>       assert report[0][\"agrees\"] is False\n               ^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:123: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_catches_a_lie - TypeError: 'NoneType'...\n1 failed in 0.35s\n",
       "stderr": ""
     },
     {
@@ -327,7 +327,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_reconcile_rejects_an_unknown_rule"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_reconcile_rejects_an_unknown_rule ____________________\n\n    def test_reconcile_rejects_an_unknown_rule():\n        record = _make_record(results=_declare((\"no_such_rule\", PASS)))\n>       with pytest.raises(VerifierError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE <class 'verifier.VerifierError'>\n\ntest_verifier.py:129: Failed\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_rejects_an_unknown_rule - Failed: DID...\n1 failed in 0.24s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_reconcile_rejects_an_unknown_rule ____________________\n\n    def test_reconcile_rejects_an_unknown_rule():\n        record = _make_record(results=_declare((\"no_such_rule\", PASS)))\n>       with pytest.raises(VerifierError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE <class 'verifier.VerifierError'>\n\ntest_verifier.py:129: Failed\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_reconcile_rejects_an_unknown_rule - Failed: DID...\n1 failed in 0.42s\n",
       "stderr": ""
     },
     {
@@ -347,7 +347,7 @@
         "pytest-result.xml",
         "test_verifier.py::test_verify_returns_a_verdict_and_a_report"
       ],
-      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_verify_returns_a_verdict_and_a_report __________________\n\n    def test_verify_returns_a_verdict_and_a_report():\n        record = _make_record(\n            results=_declare((\"actor_present\", PASS), (\"amount_bounds\", PASS))\n        )\n        result = verify(record, NOW)\n>       assert result[\"verdict\"] == PASS\n               ^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:141: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_verify_returns_a_verdict_and_a_report - TypeErr...\n1 failed in 0.29s\n",
+      "stdout": "F                                                                        [100%]\n================================== FAILURES ===================================\n_________________ test_verify_returns_a_verdict_and_a_report __________________\n\n    def test_verify_returns_a_verdict_and_a_report():\n        record = _make_record(\n            results=_declare((\"actor_present\", PASS), (\"amount_bounds\", PASS))\n        )\n        result = verify(record, NOW)\n>       assert result[\"verdict\"] == PASS\n               ^^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\ntest_verifier.py:141: TypeError\n=========================== short test summary info ===========================\nFAILED test_verifier.py::test_verify_returns_a_verdict_and_a_report - TypeErr...\n1 failed in 0.61s\n",
       "stderr": ""
     }
   ],
