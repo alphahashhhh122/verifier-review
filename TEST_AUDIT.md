@@ -1,6 +1,6 @@
 # Original supplied-test mutation audit
 
-Run the reproducible audit with:
+I ran the reproducible audit with:
 
 ```text
 python audit_tests.py --output evidence/original-test-audit.json
